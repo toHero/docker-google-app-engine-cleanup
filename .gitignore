@@ -1,0 +1,23 @@
+# *NIX text editors
+*~
+
+# IntelliJ IDEA
+.idea
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# OS specific
+.DS_Store
+# Secrets
+id_rsa
+credentials
+identity
+*.pem
+.ssh/
+.aws/
+.gcp/
+.kube/
