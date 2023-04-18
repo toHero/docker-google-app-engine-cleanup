@@ -37,7 +37,7 @@ for service in $SERVICES; do
     then
         success "No version to clean"
     else
-        run gcloud app versions --quiet delete ${VERSIONS} ${gcloud_debug_args}
+        run gcloud app versions --quiet delete --service="${service}" ${VERSIONS} ${gcloud_debug_args}
         if [ "${status}" -eq 0 ]; then
           success "Cleanup successful."
         else
