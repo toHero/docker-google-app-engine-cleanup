@@ -1,5 +1,5 @@
 name: Google App Engine Cleanup
-image: tohero/google-app-engine-cleanup:1.0.1
+image: tohero/google-app-engine-cleanup:1.0.2
 description: Cleanup versions of an application to Google App Engine.
 category: Deployment
 tags:

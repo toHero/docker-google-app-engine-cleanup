@@ -75,6 +75,7 @@ script:
       KEY_FILE: $KEY_FILE
       PROJECT: 'my-project'
       KEEP_VERSIONS: '5'
+      SERVICES: 'my-services'
 ```
 
 ## Deployment

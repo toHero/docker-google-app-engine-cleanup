@@ -31,17 +31,29 @@ run gcloud config set project $PROJECT --quiet ${gcloud_debug_args}
 info "Starting cleanup to GCP app engine..."
 
 for service in $SERVICES; do
-    VERSIONS=$(gcloud app versions list --service="${service}" --sort-by="~version.createTime" --filter="traffic_split = 0" --format="value(version.id)" | tail -n +${KEEP_VERSIONS})
-    debug "$VERSIONS"
-    if [ -z "$VERSIONS" ]
+    if [ -z "$(gcloud app services list --format="value(id)" | grep ${service})" ]
     then
-        success "No version to clean"
+        error "No service named ${service}"
     else
-        run gcloud app versions --quiet delete --service="${service}" ${VERSIONS} ${gcloud_debug_args}
-        if [ "${status}" -eq 0 ]; then
-          success "Cleanup successful."
+        info "Start to clean service ${service}"
+        VERSIONS=$(gcloud app versions list \
+                --service="${service}" \
+                --sort-by="~version.createTime" \
+                --filter="traffic_split = 0" \
+                --format="value(version.id)" \
+                --verbosity=none \
+                | tail -n +${KEEP_VERSIONS})
+        debug "$VERSIONS"
+        if [ -z "$VERSIONS" ]
+        then
+            success "No version to clean"
         else
-          fail "Cleanup failed."
+            run gcloud app versions --quiet delete --service="${service}" ${VERSIONS} ${gcloud_debug_args}
+            if [ "${status}" -eq 0 ]; then
+              success "Cleanup successful."
+            else
+              fail "Cleanup failed."
+            fi
         fi
     fi
 done
